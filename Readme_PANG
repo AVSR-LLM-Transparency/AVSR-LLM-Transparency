@@ -1,0 +1,161 @@
+# Readme from PANG
+# set up to start
+
+
+# Part_1 catkin workspace
+1--copy the catkin_ws_PANG to a new location, rename the new workspace folder as you like
+2--delete 3 things: build/, devel/, src/CMakeLists.txt
+3--open ~/.bashrc (a hiden file), add this line at the bottom, and save
+source /opt/ros/noetic/setup.bash
+4--terminal run $source ~/.bashrc
+5--cd to your new ws,run $catkin_make
+now you will find the new 3 things mentioned above
+6--open ~/.bashrc (a hiden file), add these 5 lines at the bottom, and save
+source /home/student/your_ws/devel/setup.bash
+export ROS_PACKAGE_PATH=/home/student/your_ws:$ROS_PACKAGE_PATH
+export VSR_DIR=/home/student/your_ws/VSR
+export ROS_MASTER_URI=http://master:11311
+export ROS_IPV6=on
+7--terminal run $source ~/.bashrc
+
+Now your_ws is ready!
+
+
+# Part_2 python pkgs and environmental variables
+"""
+Before we start configuration, there's something you don't need to do but need to know
+1.Our python interpreter is located at /usr/bin/python3 -> pyhton3.8 (pyhton3 is just a quick linker)
+2.Our pyhton pkgs are located at /home/student/your_ws/devel/lib/AVSR_pkgs, this is not the normal standard location of pkgs, we make this adjustment for easier workspace location movements
+3.the first line in each .py file--#!/usr/bin/env python3, is a special command to search over the environmental variable paths to find the python interpreter, so if we moved our workspace location, it can help us to find an python interpreter to run the code, as long as we have installed python on the new device; About the pkgs, there's nothing to do with the location of the new interpreter, we will use the pkgs storaged in our workspace, we only need to add this pkgs path to the environmental variable of the new device, which we will cover in the followings.
+4.For further consideration, we have also included the QT-pkgs to our workspace, just for the future if we implement the whole system to the robot.
+"""
+
+1--check /usr/bin,if we have already installed python here
+2--check your_ws/devel/lib/, if we have 2 folders named "AVSR_pkgs" and "QT_pkgs"
+3--open ~/.bashrc (a hiden file), add these 4 lines at the bottom, and save
+export PYTHONPATH=/home/student/your_ws/devel/lib/AVSR_pkgs:$PYTHONPATH
+export PYTHONPATH=/home/student/your_ws/devel/lib/QT_pkgs:$PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:/home/student/your_ws/VSR
+export PYTHONPATH=$PYTHONPATH:/home/student/your_ws/FastChat
+4--terminal run $source ~/.bashrc
+
+Now your pyhton is also ready! 
+You can run the whole system now!
+
+
+# Part_3 run the whole system
+0--running configuration, your_ws/src/State_Manager/config.yaml, change the mode as you want
+the following steps, one step, one new terminal(after you catkin_make again your_ws)
+1--$roscore
+2--$roslaunch state_manager launchfile.launch
+3--$cd VSR   $rosrun video_module video.py 
+4--$rosrun visual_module visual_module.py
+5--$rosrun audio_module audio_module.py 
+
+Now you can play!(on the computer)
+
+# Part_4 connect to the QT_robot
+"""
+If we want to connect to the QT_robot, it's also through ROS.
+There's a ROS system in the QT robot itself, we just need to connect to that ROS system, of course, through a ROS way. To identify that ROS system, we have a IP address, let's call it ROS_IP; and in every ROS system, there's always a node called "master", which controls the entire ROS system, for this master node, we have "ROS_MASTER_URI" to identify it. So if our computer and the QT_robot are in the same WLAN, and we also know the ROS_IP and ROS_MASTER_URI, then we can use ROS to connect to the robot(actually the ROS system in the robot) very easily.
+Our purpose:
+1--connect to the QT_robot WIFI (This guarantees that we are in the same WLAN)
+2--get the ROS_IP and ROS_MASTER_URI
+3--add these two things to our current environmental variables.
+So after these 3 steps, next and every time we power on our computer, we will connect to the QT_robot automatically.
+So basically, you only need to do the followings ONCE!
+"""
+0_steps you don't need to do again!
+0-- install the driver for the WIFI dongle, just follow the steps in ppt on slide 5
+1-- on the computer, pull out the ethernet cable, connect the WIFI dongle
+2-- power on QT_robot, hearing "I'm ready to play", the WIFI will be switch on automatically.
+3-- computer, connect to WIFI QTRD000109, pwd:11111111
+4-- computer, $ ifconfig, get the IP=192.168.4.242, use it as the ROS_IP for your computer
+# *** this IP COULD BE DIFFERENT FOR YOU !!!!! CHANGE IT in step 11!! ***
+(There are 2 processors in the QT_Robot, QT_RP and QT_PC, ask Daniel for more details)
+5-- $ ssh developer@192.168.100.1  (this is the QT_RP IP address)
+pwd:qtrobot
+5-- $ ssh qtrobot@QTPC
+pwd:qtrobot     same for followings
+6-- $ qtnet
+7-- ctrl D
+8-- $ qtnet
+9-- $ ifconfig
+you get the ROS_IP=192.168.4.1  (for QT_RP)
+10-- on QT_RP, open ~/.bashrc (a hiden file), add these 2 lines at the bottom, and save
+export ROS_IP=192.168.4.1 
+export ROS_MASTER_URI=http://192.168.4.1:11311
+11-- on computer open ~/.bashrc (a hiden file), add these 2 lines at the bottom, and save
+export ROS_IP=192.168.4.242 
+export ROS_MASTER_URI=http://192.168.4.1:11311
+## the Robot and your computer has individual ROS_IP, but shared the same ROS_MASTER_URI(here we use the master node on QT-robot), so the 2 ROS system could communicate with each other!
+
+Congrat!! now you have successfully connected to the QT_robot
+
+test:
+12-- $ rostopic list
+you can see all the rostopics in the QT_robot
+13-- $ rostopic echo /camera/color/image_raw
+you can see the data published to this rostopic, actually it's using the camera.
+
+Congrat!! You pass the test!! For sure you have successfully connected to the QT_robot !!
+
+
+#part_5  2PCs system
+"
+Before start, please plug in the Ethernet cable for both 2 PCs. This will make 2 PCs connect to the same LAN(here, an Ethernet)
+The first step is to run the whole system fluently on PC_2 seperately.
+The second step is to let 2 PCs communicate with each other and realise distributed system.
+"
+0-- copy the entire ws to PC_2
+1-- delete 3 things, catkin_make again (as the first time in Part_1)
+2-- install pyaudio independencies(please ask chatGPT the commmand), and then pip install pyaudio
+3-- config the path variables in VSR and launch config.yaml, the robot connected para set to False
+4-- edit the .bashrc file as following:
+this contains 3 parts: 1-ROS workspace, 2-python libraries path, (1,2 like in Part_1) 3-ROS connection config, here we focus on 3
+on PC_2:
+export ROS_IP=PC2_IP
+export ROS_MASTER_URI=http://PC2_IP:11311
+on PC_1:
+export ROS_IP=PC1_IP
+export ROS_MASTER_URI=http://PC2_IP:11311
+## Each PC has individual ROS_IP, but shared the same ROS_MASTER_URI(here we use the master node on PC_2, where we will run heavy model with GPU later), so the 2 ROS system could communicate with each other!
+
+Now you are ready to run the distributed system!
+on PC_2:
+cd to your_ws
+$roslaunch state_manager launchfile.launch
+$cd VSR   
+$rosrun video_module video.py 
+
+on PC_1:
+cd to your_ws
+$rosrun visual_module visual_module.py
+$rosrun audio_module audio_module.py 
+
+Now the system is working!!! play with it!!!
+
+Recap the running nodes:
+PC2: master, state_manager, video_module
+PC1: visual_module, audio_module
+
+<<<Everytime before working>>>
+1. Connect to Ethernet
+2. ifconfig to get the updated IP
+3. edit the .bashrc file (uncomment in PC2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
