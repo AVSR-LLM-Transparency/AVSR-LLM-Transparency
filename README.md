@@ -56,12 +56,15 @@ Then, finally you are here! Now you are ready to run the whole system. Please! I
 `rosrun audio_module audio_module.py `       
 `rosrun live_experiment live_experiment.py`     
 
-Now!!! You can have fun talking to your syetem!!!    
+Now!!! You can have fun talking to your system!!!    
+
+
+# Appendix
+P.S.          
+There are some errors you may run into, please don't panic.             
+1. Pyaudio independencies not installed: please google the step to install the indepnecies, and install pyaudio again. (It's super easy, I promise u)               
+2. Ethernet IP error: Our Ethernet IPs at EPFL LAN are not fixed, so everytime you wanna run the code, please run ifconfig to checck the IPs first.
+
+
+Here is where I am gonna leave you.    
 Good Luck!!!   
-
-
-
-
-
-
-Pyaudio independencies
