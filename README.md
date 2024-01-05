@@ -1,9 +1,9 @@
 # Intro
-This is the general Readme Instructionse of Zeyu Pang's Semester Project at CHILI EPFL. By following the steps one by one, you can definitely replicate what I have done during this Semester.      
+This is the general Readme Instructions of Zeyu Pang's Semester Project at CHILI EPFL. By following the steps one by one, you can definitely replicate what I have done during this Semester.      
 We will divide the guidance into 3 parts as following. Now Let's get started!
 
 # Part 1: Code Download & ROS workspace creation
-The other 5 repositories of this Github account are the 5 ROS Modules in our ROS catkin_ws, which are included in cat_kin/src. But for students at CHILI, please DO NOT create a new catkin_ws on your own, as the catkin_ws should contain much more than these 5 modules, such as LLM model weights, etc. These 5 Modules are the core contents, so we publish them online for ease of reference.        
+The other 5 repositories of this Github account are the 5 ROS Modules in our ROS catkin_ws, which are included in cat_kin/src. But for students at CHILI, please DO NOT create a new catkin_ws on your own, as the catkin_ws contains much more than these 5 modules, such as LLM model weights, etc. These 5 Modules are the core contents, so we publish them online for ease of reference.        
 To get start, please copy our original workspace _catkin_ws_PANG/_, and make adjustments based on it, by following the next steps.      
 
 1--copy the catkin_ws_PANG to a new location, rename the new workspace folder as you like    
@@ -16,7 +16,7 @@ Congrats! Now you finish the first part!
 
 # Part 2: System Setup
 Now we will do some preparations before running our ROS distributed sytem. Before this section, please make sure that you have finished Part 1 on BOTH PCs that you are going to use.        
-Then we will do some environmental setup in the _~/.bashrc_ file of these 2 PCs. This can be further divided into 2 subsections
+Then we will do some environmental setup in the _~/.bashrc_ file of these 2 PCs. This can be further divided into 2 subsections.
 ## Pyhton Libraries 
 On BOTH of 2 PCs, Please add these lines in the _.bashrc_ file, to configure environmental variables related to Python Libraries.
 
@@ -25,7 +25,7 @@ On BOTH of 2 PCs, Please add these lines in the _.bashrc_ file, to configure env
 `export PYTHONPATH=$PYTHONPATH:path_to_your_ws/FastChat`      
 
 ## ROS Communication setup
-Now we configure some settings to guarantee the communication between 2 PCs. The very first step is to plug in Ethernet cable for BOTH 2 PCs, to make them connect to the same LAN.         
+Now we will configure some settings to guarantee the communication between 2 PCs. The very first step is to plug in the Ethernet cable for BOTH 2 PCs, to make them connect to the same LAN.         
 Then, run _ifconfig_ to check the IPs of the 2 PCs. After these steps, please again, open your _.bashrc_ file and add these new lines in it.
 
 **On PC2, the Server PC :**     
@@ -42,7 +42,7 @@ Congrats! Now your ROS system is working！
 
 # Part 3： Run the whole system 
 Before we could run the code, the final step is to change some path variables within our codes.       
-To be more specific, please  config the path variables in _VSR_ ,in _State_Manager/launch/config.yaml_ and in _live_experiment.py_     
+To be more specific, please config the path variables in _VSR_ , in _State_Manager/launch/config.yaml_ and in _live_experiment.py_     
 
 Then, finally you are here! Now you are ready to run the whole system. Please! In order! Run these commands seperately on 2 PCs.(cd to your_ws at first)         
 
@@ -62,8 +62,8 @@ Now!!! You can have fun talking to your system!!!
 # Appendix
 P.S.          
 There are some errors you may run into, please don't panic.             
-1. Pyaudio independencies not installed: please google the step to install the indepnecies, and install pyaudio again. (It's super easy, I promise u)               
-2. Ethernet IP error: Our Ethernet IPs at EPFL LAN are not fixed, so everytime you wanna run the code, please run ifconfig to checck the IPs first.
+1. Pyaudio independencies not installed: please google the steps to install the independencies, and install pyaudio again. (It's super easy, I promise u)               
+2. Ethernet IP error: Our Ethernet IPs at EPFL are not fixed, so everytime you wanna run the code, please run _ifconfig_ to check the IPs first.
 
 
 Here is where I am gonna leave you.    
