@@ -14,7 +14,7 @@ To get start, please copy our original workspace _catkin_ws_PANG/_, and make adj
 
 Congrats! Now you finish the first part!
 
-# Part 2: System Setup
+# Part 2: Distributed System Configuration
 Now we will do some preparations before running our ROS distributed sytem. Before this section, please make sure that you have finished Part 1 on BOTH PCs that you are going to use.        
 Then we will do some environmental setup in the _~/.bashrc_ file of these 2 PCs. This can be further divided into 2 subsections.
 ## Pyhton Libraries 
